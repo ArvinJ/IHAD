@@ -1,0 +1,109 @@
+MabatisConfig.xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 和spring整合后 environments配置将废除-->
+    <environments default="development">
+        <environment id="development">
+            <!-- 使用jdbc事务管理，事务控制由mybatis-->
+            <transactionManager type="JDBC" />
+            <!-- 数据库连接池,由mybatis管理-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://120.25.162.238:3306/mybatis001?characterEncoding=utf-8" />
+                <property name="username" value="root" />
+                <property name="password" value="123" />
+            </dataSource>
+        </environment>
+    </environments>
+
+</configuration>
+
+
+
+映射文件
+
+sqlmap/User.xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 命名空间，作用就是对sql进行分类化管理,理解为sql隔离
+ 注意：使用mapper代理方法开发，namespace有特殊重要的作用
+ -->
+<mapper namespace="test">
+    <!-- 在映射文件中配置很多sql语句 -->
+    <!--需求:通过id查询用户表的记录 -->
+    <!-- 通过select执行数据库查询
+     id:标识映射文件中的sql，称为statement的id
+     将sql语句封装到mappedStatement对象中，所以将id称为statement的id
+     parameterType:指定输入参数的类型
+     #{}标示一个占位符,
+     #{value}其中value表示接收输入参数的名称，如果输入参数是简单类型，那么#{}中的值可以任意。
+
+     resultType：指定sql输出结果的映射的java对象类型，select指定resultType表示将单条记录映射成java对象
+     -->
+    <select id="findUserById" parameterType="int" resultType="com.iot.mybatis.po.User">
+        SELECT * FROM  user  WHERE id=#{value}
+    </select>
+
+    <!-- 根据用户名称模糊查询用户信息，可能返回多条
+	resultType：指定就是单条记录所映射的java对象类型
+	${}:表示拼接sql串，将接收到参数的内容不加任何修饰拼接在sql中。
+	使用${}拼接sql，引起 sql注入
+	${value}：接收输入参数的内容，如果传入类型是简单类型，${}中只能使用value
+	 -->
+    <select id="findUserByName" parameterType="java.lang.String" resultType="com.iot.mybatis.po.User">
+        SELECT * FROM user WHERE username LIKE '%${value}%'
+    </select>
+
+
+</mapper>
+在sqlMapConfig.xml中加载User.xml
+
+<!-- 加载映射文件-->
+<mappers>
+    <mapper resource="sqlmap/User.xml"/>
+</mappers>
+
+
+
+
+
+
+
+
+parameterType
+在映射文件中通过parameterType指定输入参数的类型
+
+resultType
+在映射文件中通过resultType指定输出结果的类型
+
+#{}和${}
+#{}表示一个占位符号;
+
+${}表示一个拼接符号，会引起sql注入，所以不建议使用
+
+selectOne和selectList
+selectOne表示查询一条记录进行映射，使用selectList也可以使用，只不过只有一个对象
+
+selectList表示查询出一个列表(参数记录)进行映射，不能够使用selectOne查，不然会报下面的错:
+
+
+mybatis和hibernate本质区别和应用场景
+
+hibernate
+是一个标准ORM框架（对象关系映射）。入门门槛较高的，不需要程序写sql，sql语句自动生成了。对sql语句进行优化、修改比较困难的。
+
+应用场景：适用与需求变化不多的中小型项目，比如：后台管理系统，erp、orm、oa。。
+
+mybatis
+专注是sql本身，需要程序员自己编写sql语句，sql修改、优化比较方便。mybatis是一个不完全的ORM框架，虽然程序员自己写sql，mybatis也可以实现映射（输入映射、输出映射）。
+
+应用场景：适用与需求变化较多的项目，比如：互联网项目。
+
+企业进行技术选型，以低成本高回报作为技术选型的原则，根据项目组的技术力量进行选择。
+
+

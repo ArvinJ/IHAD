@@ -1,0 +1,6 @@
+2017-07-23 11:28:25.899 INFO  com.ahhf.ljxbw.test.TestLogBackMain - logger.infoMessage.
+2017-07-23 11:28:25.901 INFO  com.ahhf.ljxbw.test.TestLogBackMain - logger.infoMessage111.
+2017-07-23 11:28:25.901 INFO  com.ahhf.ljxbw.test.TestLogBackMain - logger.infoMessage222.
+2017-07-23 15:55:18.458 INFO  com.ahhf.ljxbw.test.JDBCTest - com.mysql.jdbc.JDBC4ResultSet@5cb9f472
+2017-07-23 15:55:18.462 INFO  com.ahhf.ljxbw.test.JDBCTest - com.mysql.jdbc.JDBC4ResultSet@5cb9f472
+2017-07-23 15:55:18.462 INFO  com.ahhf.ljxbw.test.JDBCTest - com.mysql.jdbc.JDBC4ResultSet@5cb9f472
