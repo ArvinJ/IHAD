@@ -21,6 +21,18 @@ public class User {
 	private Date updateDateTime;
 	private int status;
 
+	public User() {
+	}
+
+	public User( String username, String password, int sequence) {
+		this.username = username;
+		this.password = password;
+		this.sequence = sequence;
+		this.createDateTime = new Date();
+		this.updateDateTime = new Date();
+		this.status = 00;
+	}
+
 	public int getId() {
 		return id;
 	}
