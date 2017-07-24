@@ -1,8 +1,10 @@
-package com.ahhf.ljxbw.dao;
+package com.ahhf.ljxbw.mapping;
 
 import java.util.List;
 
 import com.ahhf.ljxbw.entity.User;
+import com.ahhf.ljxbw.entity.UserCustom;
+import com.ahhf.ljxbw.entity.UserQueryPOJO;
 
 public interface UserMapper {
     //根据id查询用户信息
@@ -19,4 +21,6 @@ public interface UserMapper {
 
     //更新用户
     public void updateUser(User user)throws Exception;
+    // 用户信息综合查询
+    public List<UserCustom> findUserList(UserQueryPOJO userQueryVo) throws Exception;
 }

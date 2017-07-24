@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的 
 	例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀) -->
-<!-- 第一种  dao方法    <mapper namespace="com.ahhf.ljxbw.mapping.userMapper">   下面第二种是mapper代码对象-->
-<mapper namespace="com.ahhf.ljxbw.dao.UserMapper">
+<!-- 第一种  dao方法    <mapper namespace="com.ahhf.ljxbw.mapping.userMapper">   下面第二种是mapper代理方法-->
+<mapper namespace="com.ahhf.ljxbw.mapping.UserMapper">
 	<!-- 在select标签中编写查询的SQL语句， 设置select标签的id属性为getUser，id属性值必须是唯一的，不能够重复 使用parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型 
 		resultType="me.gacl.domain.User"就表示将查询结果封装成一个User类的对象返回 User类就是users表所对应的实体类 -->
 	<!-- 根据id查询得到一个user对象 -->
@@ -35,4 +35,14 @@
 		delete from user where id=#{id}
 	</delete>
 	
+	
+	
+	 <!-- 用户信息综合查询
+        #{userCustom.password}:取出pojo包装对象中password值
+        ${userCustom.username}：取出pojo包装对象中用户名称
+     -->
+    <select id="findUserList" parameterType="com.ahhf.ljxbw.entity.UserQueryPOJO"
+            resultType="com.ahhf.ljxbw.entity.UserQueryPOJO">
+        SELECT * FROM user WHERE<!--  user.password=#{userCustom.password} AND --> user.username LIKE '%${userCustom.username}%'
+    </select>
 </mapper>

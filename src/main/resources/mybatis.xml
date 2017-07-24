@@ -10,10 +10,10 @@
 			<transactionManager type="JDBC" />
 			<!-- 配置数据库连接信息 -->
 			<dataSource type="POOLED">
-				<property name="driver" value="${jdbc.driver}" />
-				<property name="url" value="${jdbc.url}" />
-				<property name="username" value="${jdbc.username}" />
-				<property name="password" value="${jdbc.password}" />
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
 			</dataSource>
 		</environment>
 	</environments>
@@ -23,4 +23,28 @@
 		<mapper resource="com/ahhf/ljxbw/mapping/userMapper.xml" />
 	</mappers>
 
+
+
+
+<!--    http://www.mybatis.org/mybatis-3/configuration.html#typeAliases
+properties（属性）
+settings（全局配置参数）      mybatis-settings  mybatis框架在运行时可以调整一些运行参数,比如：开启二级缓存、开启延迟加载...全局参数将会影响mybatis的运行行为。
+typeAliases（类型别名）   如果在指定类型时输入类型全路径，不方便进行开发，可以针对parameterType或resultType指定的类型定义一些别名，在mapper.xml中通过别名定义，方便开发。
+typeHandlers（类型处理器）
+objectFactory（对象工厂）
+plugins（插件）
+environments（环境集合属性对象）
+environment（环境子属性对象）
+transactionManager（事务管理）
+dataSource（数据源）
+mappers（映射器）
+批量加载mapper(推荐使用)
+ 批量加载mapper
+		指定mapper接口的包名，mybatis自动扫描包下边所有mapper接口进行加载
+		遵循一些规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录 中
+		上边规范的前提是：使用的是mapper代理方法
+		 
+<package name="com.iot.mybatis.mapper"/>
+
+    -->
 </configuration>
