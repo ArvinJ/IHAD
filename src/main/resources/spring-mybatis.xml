@@ -17,7 +17,7 @@
 		<property name="location" value="classpath:jdbc.properties" />
 	</bean>
 
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${driver}" />
 		<property name="url" value="${url}" />
@@ -35,8 +35,11 @@
 		<property name="maxWait" value="${maxWait}"></property>
 	</bean> -->
 	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-	<property name="slowSqlMillis" value="10000" />
-	<property name="logSlowSql" value="true" />
+		<property name="slowSqlMillis" value="10000" />
+		<property name="logSlowSql" value="true" />
+	</bean>
+	<bean id="logFilter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+		<property name="statementExecutableSqlLogEnable" value="false" />
 	</bean>
 	<bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig"
 		init-method="init">
@@ -52,37 +55,38 @@
 		<property name="config" ref="wall-filter-config" />
 	</bean>
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">  
-    <property name="url" value="${url}" />  
-    <property name="username" value="${username}" />  
-    <property name="password" value="${password}" />  
-  
-    <!-- 配置初始化大小、最小、最大 -->  
-    <property name="initialSize" value="${initialSize}" />  
-    <property name="minIdle" value="${maxIdle}" />  
-    <property name="maxActive" value="${maxActive}" />  
-  
-    <!-- 配置获取连接等待超时的时间 -->  
-    <property name="maxWait" value="${maxWait}" />  
-  
-    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->  
-    <property name="timeBetweenEvictionRunsMillis" value="60000" />  
-  
-    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->  
-    <property name="minEvictableIdleTimeMillis" value="300000" />  
-  
-    <property name="validationQuery" value="SELECT 'x'" />  
-    <property name="testWhileIdle" value="true" />  
-    <property name="testOnBorrow" value="false" />  
-    <property name="testOnReturn" value="false" />  
-    <property name="filters" value="stat" />
-    <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->  
-    <property name="proxyFilters">  
-        <list>  
-            <ref bean="stat-filter" />  
-            <ref bean="wall-filter" />  
-        </list>  
-    </property>  
+		init-method="init" destroy-method="close">
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="${initialSize}" />
+		<property name="minIdle" value="${maxIdle}" />
+		<property name="maxActive" value="${maxActive}" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${maxWait}" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="filters" value="stat" />
+		<!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="logFilter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
 	</bean>
 
 	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->

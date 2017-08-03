@@ -1,6 +1,9 @@
 package com.ahhf.ljxbw.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -12,24 +15,25 @@ import java.util.Date;
  *
  */
 public class User {
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	// // 实体类的属性和表的字段名称一一对应
 	private int id;
 	private String username;
 	private String password;
 	private int sequence;
-	private Date createDateTime;
-	private Date updateDateTime;
+	private String createDateTime;
+	private String updateDateTime;
 	private int status;
 
 	public User() {
 	}
 
-	public User( String username, String password, int sequence) {
+	public User(String username, String password, int sequence) {
 		this.username = username;
 		this.password = password;
 		this.sequence = sequence;
-		this.createDateTime = new Date();
-		this.updateDateTime = new Date();
+		this.createDateTime = df.format(new Date());
+		this.updateDateTime = df.format(new Date());
 		this.status = 00;
 	}
 
@@ -65,19 +69,27 @@ public class User {
 		this.sequence = sequence;
 	}
 
-	public Date getCreateDateTime() {
+	@JsonIgnore
+	/**
+	 * 
+	 * @Title: getCreateDateTime @Description: TODO(@JsonIgnore
+	 * 注解使用在属性对应的get方法头上【返回user的json字符串中过滤createDateTime】) @param @return
+	 * 设定文件 @return String 返回类型 @author ZWJ @throws
+	 */
+	public String getCreateDateTime() {
 		return createDateTime;
 	}
 
-	public void setCreateDateTime(Date createDateTime) {
+	public void setCreateDateTime(String createDateTime) {
 		this.createDateTime = createDateTime;
 	}
 
-	public Date getUpdateDateTime() {
+	@JsonIgnore
+	public String getUpdateDateTime() {
 		return updateDateTime;
 	}
 
-	public void setUpdateDateTime(Date updateDateTime) {
+	public void setUpdateDateTime(String updateDateTime) {
 		this.updateDateTime = updateDateTime;
 	}
 

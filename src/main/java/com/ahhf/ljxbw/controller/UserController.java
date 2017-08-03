@@ -64,7 +64,7 @@ public class UserController {
 		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		// 调用userMapper的方法
 		User user = userMapper.findUserById(1);
-		String formatDate = df.format(user.getUpdateDateTime());
+		//String formatDate = df.format(user.getUpdateDateTime());
 		return user;
 	}
 
