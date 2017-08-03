@@ -8,12 +8,12 @@
 		resultType="me.gacl.domain.User"就表示将查询结果封装成一个User类的对象返回 User类就是users表所对应的实体类 -->
 	<!-- 根据id查询得到一个user对象 -->
 	<select id="findUserById" parameterType="int" resultType="com.ahhf.ljxbw.entity.User">
-		select *
+		select username,password,sequence,status
 		from user where id=#{id}
 	</select>
 
 	<select id="findUserByName" parameterType="string" resultType="com.ahhf.ljxbw.entity.User">
-		select * from user where user.username = #{username}
+		select username,password,sequence,status from user where user.username = #{username}
 	</select>
 
 

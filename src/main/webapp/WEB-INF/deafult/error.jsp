@@ -4,13 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>error</title>
 </head>
 <body>
-<form action="login" method="post">
-Username:<input type="text" name="username"/><br/>
-Password:<input type="password" name="password"/><br/>
-<input type="submit"/>
-</form>
+发现错误:
+<h1>${exception.message}</h1>
 </body>
 </html>

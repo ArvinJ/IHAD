@@ -211,6 +211,11 @@
 			<artifactId>jxls-core</artifactId>
 			<version>1.0.5</version>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.14</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>IHAD</finalName>
