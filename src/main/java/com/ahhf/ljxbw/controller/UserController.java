@@ -30,12 +30,12 @@ import com.ahhf.ljxbw.mapping.UserMapper;
 import com.ahhf.ljxbw.utils.SqlSessionFactoryUtil;
 
 @Controller
+@RequestMapping(value="/user")
 public class UserController {
-	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	@RequestMapping(value = "/data")
 	@ResponseBody
 	public Map<String, Object> data() {
-
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < 20; i++) {
 			Map<String, Object> m = new HashMap<String, Object>();
@@ -46,6 +46,7 @@ public class UserController {
 		map.put("data", data);
 		return map;
 	}
+	
 
 	@RequestMapping(value = "user/userInfo.action")
 	@ResponseBody
@@ -68,10 +69,22 @@ public class UserController {
 		return user;
 	}
 
-	private Map<String, User> users = new HashMap<String, User>();
-
+	private Map<String, User> users1 = new HashMap<String, User>();
+	
+	public UserMapper findUserMapper()  {
+		SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtil.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		// 创建UserMapper代理对象
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		return userMapper;
+	}
+	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String list(Model model) {
+ 	public String list(Model model) throws Exception {
+		
+		// 调用userMapper的方法
+		List<User> users = findUserMapper().findUsers();
+		
 		model.addAttribute("users", users);
 		return "/user/list";
 	}
@@ -80,23 +93,23 @@ public class UserController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(Model model) {
 		model.addAttribute(new User());
-		System.out.println("add");
 		return "/user/add";
 	}
-/*
+
 	// 添加用户，post请求
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(@Validated User user, BindingResult br) {// 一定要紧跟Validate之后写验证结果
-		System.out.println(br.hasErrors());
+	public String add(@Validated User user, BindingResult br) throws Exception {// 一定要紧跟Validate之后写验证结果
 		if (br.hasErrors()) {
 			// 如果有错,直接返回到add.jsp去显示
 			return "/user/add";
 		}
-		users.put(user.getUsername(), user);
+//		user.setId(null);
+		//findUserMapper().insertUser(user);
+		findUserMapper().addUser(user);
 		return "redirect:/user/users";
 	}
 	
-	
+	/*	
 	//在具体添加用户时，是post请求，就访问以下代码
 		@RequestMapping(value="/add",method=RequestMethod.POST)
 		public String add(@Validated User user,BindingResult br,@RequestParam("attachs")MultipartFile[] attachs,HttpServletRequest req) throws IOException {//一定要紧跟Validate之后写验证结果类
@@ -117,7 +130,7 @@ public class UserController {
 	
 	
 */
-	// 添加用户含上传文档，post请求
+	/*// 添加用户含上传文档，post请求
 		@RequestMapping(value = "/add", method = RequestMethod.POST)
 		public String add(@Validated User user, BindingResult br,MultipartFile attach,HttpServletRequest req) throws IOException {// 一定要紧跟Validate之后写验证结果
 			System.out.println(br.hasErrors());
@@ -130,22 +143,22 @@ public class UserController {
 			System.out.println("path:"+realpath);
 			File f = new File(realpath+"/"+attach.getOriginalFilename());
 			FileUtils.copyInputStreamToFile(attach.getInputStream(),f);
-			users.put(user.getUsername(), user);
+			users1.put(user.getUsername(), user);
 			return "redirect:/user/users";
-		}
+		}*/
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public String show(@PathVariable String username, Model model) {
 		System.out.println("username" + username);
 		// model.addAttribute(users.get(username));
-		model.addAttribute("user", users.get(username));
+		model.addAttribute("user", users1.get(username));
 		return "user/show";
 	}
 
 	@RequestMapping(value="/{username}",method=RequestMethod.GET,params="json")
 	@ResponseBody
 	public User show(@PathVariable String username) {
-		System.out.println("ddddddddddddd"+users.get(username).toString());
-		return users.get(username);
+		System.out.println("ddddddddddddd"+users1.get(username).toString());
+		return users1.get(username);
 	}
 	
 	
@@ -153,7 +166,7 @@ public class UserController {
 	@RequestMapping(value = "/{username}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String username, Model model) {
 		// model.addAttribute(users.get(username));
-		model.addAttribute("user", users.get(username));
+		model.addAttribute("user", users1.get(username));
 		return "user/update";
 	}
 
@@ -163,14 +176,14 @@ public class UserController {
 		if (br.hasErrors())
 			return "/user/update";
 		System.out.println(user.toString());
-		users.put(username, user);
+		users1.put(username, user);
 		return "redirect:/user/users";
 	}
 
 	@RequestMapping(value = "/{username}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable String username) {
 		System.out.println("del--"+username);
-		users.remove(username);
+		users1.remove(username);
 		return "redirect:/user/users";
 	}
 	@RequestMapping(value="/login",method=RequestMethod.GET)
@@ -180,10 +193,10 @@ public class UserController {
 	
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public String login(String username,String password,HttpSession session){
-		if(!users.containsKey(username)) {
+		if(!users1.containsKey(username)) {
 			throw new UserException("用户名不存在");
 		}
-		User u = users.get(username);
+		User u = users1.get(username);
 		if(!u.getPassword().equals(password)) {
 			throw new UserException("用户密码不正确");
 		}
@@ -191,4 +204,5 @@ public class UserController {
 		return "redirect:/user/users";
 	}
 
+	
 }

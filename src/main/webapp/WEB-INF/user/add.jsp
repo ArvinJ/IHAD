@@ -9,7 +9,7 @@
 </head>
 <body>
 	Add
-	<sf:form method="post" modelAttribute="user" enctype="multipart/form-data">
+	<sf:form method="post" modelAttribute="user" ><%-- enctype="multipart/form-data" --%>
 用户名：<sf:input path="username" />
 		<sf:errors path="username" />
 		<br>
@@ -19,8 +19,8 @@
 E-mail:<sf:input path="email" />
 		<sf:errors path="email" />
 		<br>
-		Attach:<input type="file" name="attach" />
-		<br />
+		<!-- Attach:<input type="file" name="attach" />
+		<br /> -->
 		<input type="submit" value="添加用户">
 		<br>
 	</sf:form>

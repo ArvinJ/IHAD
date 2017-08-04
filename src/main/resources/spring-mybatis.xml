@@ -17,23 +17,6 @@
 		<property name="location" value="classpath:jdbc.properties" />
 	</bean>
 
-<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${driver}" />
-		<property name="url" value="${url}" />
-		<property name="username" value="${username}" />
-		<property name="password" value="${password}" />
-		初始化连接大小
-		<property name="initialSize" value="${initialSize}"></property>
-		连接池最大数量
-		<property name="maxActive" value="${maxActive}"></property>
-		连接池最大空闲
-		<property name="maxIdle" value="${maxIdle}"></property>
-		连接池最小空闲
-		<property name="minIdle" value="${minIdle}"></property>
-		获取连接最大等待时间
-		<property name="maxWait" value="${maxWait}"></property>
-	</bean> -->
 	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
 		<property name="slowSqlMillis" value="10000" />
 		<property name="logSlowSql" value="true" />
@@ -59,7 +42,10 @@
 		<property name="url" value="${url}" />
 		<property name="username" value="${username}" />
 		<property name="password" value="${password}" />
-
+		<!-- 开启数据库密码解密 -->
+		<property name="filters" value="config" /> 
+		<!-- <property name="connectionProperties" value="config.decrypt=true"  /> -->
+		<!-- <property name="connectionProperties" value="config.decrypt=true;config.decrypt.key=${publicKey}" />  -->
 		<!-- 配置初始化大小、最小、最大 -->
 		<property name="initialSize" value="${initialSize}" />
 		<property name="minIdle" value="${maxIdle}" />
@@ -78,7 +64,8 @@
 		<property name="testWhileIdle" value="true" />
 		<property name="testOnBorrow" value="false" />
 		<property name="testOnReturn" value="false" />
-		<property name="filters" value="stat" />
+	<!-- 	<property name="filters" value="stat" /> -->
+		
 		<!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->
 		<property name="proxyFilters">
 			<list>

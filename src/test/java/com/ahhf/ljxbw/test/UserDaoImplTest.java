@@ -44,7 +44,7 @@ public class UserDaoImplTest {
 	@Test
 	public void testInsertUser() throws Exception{
 		UserDao userDao = new UserDaoImpl(sqlSessionFactory);
-		userDao.insertUser(new User("张三","dfdfdfd",10));
+		userDao.insertUser(new User("XXX","dfdfdfd","sdsddd@dfd.dfd"));
 		User user = userDao.findUserById(1);
 		System.out.println(user);
 	}

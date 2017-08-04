@@ -36,17 +36,13 @@
 		<filter-name>logfilter</filter-name>
 		<filter-class>com.ahhf.ljxbw.filter.LogFilter</filter-class>
 	</filter>
-	<!-- <filter-mapping> <filter-name>logfilter</filter-name> <url-pattern>/*</url-pattern> 
-		</filter-mapping> -->
 	<filter-mapping>
 		<filter-name>logfilter</filter-name>
-		<url-pattern>*.jsp</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<filter-mapping>
-		<filter-name>logfilter</filter-name>
-		<url-pattern>*.action</url-pattern>
-	</filter-mapping>
-	<!-- <filter-mapping> <filter-name>logfilter</filter-name> <url-pattern>*.html</url-pattern> 
+	<!-- <filter-mapping> <filter-name>logfilter</filter-name> <url-pattern>*.jsp</url-pattern> 
+		</filter-mapping> <filter-mapping> <filter-name>logfilter</filter-name> <url-pattern>*.action</url-pattern> 
+		</filter-mapping> <filter-mapping> <filter-name>logfilter</filter-name> <url-pattern>*.html</url-pattern> 
 		</filter-mapping> <filter-mapping> <filter-name>logfilter</filter-name> <url-pattern>*.htm</url-pattern> 
 		</filter-mapping> -->
 

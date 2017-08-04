@@ -3,6 +3,11 @@ package com.ahhf.ljxbw.entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -15,12 +20,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 public class User {
-	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	// // 实体类的属性和表的字段名称一一对应
-	private int id;
+	private Integer id;
 	private String username;
 	private String password;
 	private int sequence;
+	private String email;
 	private String createDateTime;
 	private String updateDateTime;
 	private int status;
@@ -28,23 +34,24 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, String password, int sequence) {
+	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
-		this.sequence = sequence;
+		this.email = email;
 		this.createDateTime = df.format(new Date());
 		this.updateDateTime = df.format(new Date());
 		this.status = 00;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	@NotEmpty(message = "用户名不能为空")
 	public String getUsername() {
 		return username;
 	}
@@ -53,6 +60,7 @@ public class User {
 		this.username = username;
 	}
 
+	@Size(min = 6, max = 10, message = "密码的长度应该在6和10之间")
 	public String getPassword() {
 		return password;
 	}
@@ -69,12 +77,22 @@ public class User {
 		this.sequence = sequence;
 	}
 
+	@NotEmpty(message = "邮箱不能为空")
+	@Email(message = "邮箱格式不正确")
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@JsonIgnore
 	/**
 	 * 
 	 * @Title: getCreateDateTime @Description: TODO(@JsonIgnore
-	 * 注解使用在属性对应的get方法头上【返回user的json字符串中过滤createDateTime】) @param @return
-	 * 设定文件 @return String 返回类型 @author ZWJ @throws
+	 *         注解使用在属性对应的get方法头上【返回user的json字符串中过滤createDateTime】
+	 *         ) @param @return 设定文件 @return String 返回类型 @author ZWJ @throws
 	 */
 	public String getCreateDateTime() {
 		return createDateTime;
@@ -103,9 +121,9 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", sequence=" + sequence
-				+ ", createDateTime=" + createDateTime + ", updateDateTime=" + updateDateTime + ", status=" + status
-				+ "]";
+		return "User [df=" + df + ", id=" + id + ", username=" + username + ", password=" + password + ", sequence="
+				+ sequence + ", email=" + email + ", createDateTime=" + createDateTime + ", updateDateTime="
+				+ updateDateTime + ", status=" + status + "]";
 	}
 
 }

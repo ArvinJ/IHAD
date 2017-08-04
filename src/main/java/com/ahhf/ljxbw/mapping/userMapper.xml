@@ -21,8 +21,13 @@
 		useGeneratedKeys设置为"true"表明要MyBatis获取由数据库自动生成的主键；keyProperty="id"指定把获取到的主键值注入到User的id属性 -->
  	<insert id="insertUser" parameterType="com.ahhf.ljxbw.entity.User" useGeneratedKeys="true"
 		keyProperty="id">
-		insert into user(username,password,sequence)
-		values(#{username},#{password},#{sequence})
+		insert into user(username,password,email)
+		values(#{username},#{password},#{email})
+	</insert>
+	
+	<insert id="addUser" parameterType="com.ahhf.ljxbw.entity.User" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into user(username,password)values(#{username},#{password})
 	</insert>
 
 	<update id="updateUser" parameterType="com.ahhf.ljxbw.entity.User">
@@ -45,4 +50,11 @@
             resultType="com.ahhf.ljxbw.entity.UserQueryPOJO">
         SELECT * FROM user WHERE<!--  user.password=#{userCustom.password} AND --> user.username LIKE '%${userCustom.username}%'
     </select>
+    
+    <select id="findUsers" parameterType="com.ahhf.ljxbw.entity.User"
+            resultType="com.ahhf.ljxbw.entity.User">
+        SELECT * FROM user 
+    </select>
+    
+    
 </mapper>

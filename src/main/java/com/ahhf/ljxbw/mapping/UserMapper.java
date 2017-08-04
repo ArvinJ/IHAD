@@ -23,4 +23,17 @@ public interface UserMapper {
     public void updateUser(User user)throws Exception;
     // 用户信息综合查询
     public List<UserCustom> findUserList(UserQueryPOJO userQueryVo) throws Exception;
+    /**
+     * 
+    * @Title: findUsers 
+    * @Description: TODO(查询所有的user) 
+    * @param @return
+    * @param @throws Exception    设定文件 
+    * @return List<User>    返回类型 
+    * @author ZWJ
+    * @throws
+     */
+    public List<User> findUsers()throws Exception;
+    
+    public void addUser(User user)throws Exception;
 }

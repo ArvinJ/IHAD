@@ -5,17 +5,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/main.css" type="text/css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/main.css"
+	type="text/css">
 <title>userList</title>
 </head>
 <body>
 	list
 	<br>
-	<a href="http://localhost:8080/Pro/user/add">添加用户</a>
+	<a href="<%=request.getContextPath()%>/user/add">添加用户</a>
 	<br>
-	<c:forEach items="${users}" var="userMap">
+	<c:forEach items="${users}" var="user">
 
-<a href="${userMap.value.username }">${userMap.value.username}</a>--${userMap.value.password }-${userMap.value.email } <a href="${userMap.value.username }/update">修改</a><br><a href="${userMap.value.username }/delete">删除</a><br>
+		<a href="${user.username }">${user.username}</a>--${user.password } <a
+			href="${user.username }/update">修改</a>
+		<br>
+		<a href="${user.username }/delete">删除</a>
+		<br>
 
 	</c:forEach>
 
