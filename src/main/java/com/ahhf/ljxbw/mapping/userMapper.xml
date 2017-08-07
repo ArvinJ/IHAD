@@ -56,5 +56,8 @@
         SELECT * FROM user 
     </select>
     
-    
+    <select id="login" parameterType="java.util.Map"
+            resultType="com.ahhf.ljxbw.entity.User">
+        SELECT * FROM user where username=#{username} and password=#{password} 
+    </select>
 </mapper>

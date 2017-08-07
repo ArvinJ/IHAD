@@ -73,7 +73,7 @@ public class LogFilter implements Filter {
                 	request.setCharacterEncoding("UTF-8");
                     
                     PrintWriter out = response.getWriter();
-                    String loginPage = "login";
+                    String loginPage = basePath+"/user/login";
                     StringBuilder builder = new StringBuilder();
                     builder.append("<script type=\"text/javascript\">");
                     builder.append("alert('not login');");

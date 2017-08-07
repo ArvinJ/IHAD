@@ -1,6 +1,7 @@
 package com.ahhf.ljxbw.mapping;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ahhf.ljxbw.entity.User;
 import com.ahhf.ljxbw.entity.UserCustom;
@@ -36,4 +37,7 @@ public interface UserMapper {
     public List<User> findUsers()throws Exception;
     
     public void addUser(User user)throws Exception;
+    
+    public User login(Map<String, Object> param)throws Exception;
+    
 }

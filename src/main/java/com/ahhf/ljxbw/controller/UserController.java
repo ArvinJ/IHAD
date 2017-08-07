@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,10 +30,13 @@ import com.ahhf.ljxbw.exception.UserException;
 import com.ahhf.ljxbw.mapping.UserMapper;
 import com.ahhf.ljxbw.utils.SqlSessionFactoryUtil;
 
+import ch.qos.logback.classic.Logger;
+
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
 	@RequestMapping(value = "/data")
 	@ResponseBody
 	public Map<String, Object> data() {
@@ -192,17 +196,34 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public String login(String username,String password,HttpSession session){
-		if(!users1.containsKey(username)) {
-			throw new UserException("用户名不存在");
+	public String login(String username, String password, HttpSession session, Model model) throws Exception {
+		logger.info("username:" + username + "password:" + password);
+		if (username == null || username == "") {
+			model.addAttribute("error", "用户名不能为空！");
+			return "/user/login";
+		} else if (password == null || password == "") {
+			model.addAttribute("error", "密码不能为空！");
+			return "/user/login";
 		}
-		User u = users1.get(username);
-		if(!u.getPassword().equals(password)) {
-			throw new UserException("用户密码不正确");
+
+		SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtil.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		// 创建UserMapper代理对象
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("username", username.trim());
+		hmap.put("password", password.trim());
+		// hmap.put("password",MD5Util.string2MD5(password.trim()));
+		User user = userMapper.login(hmap);
+
+		if (user == null) {
+			model.addAttribute("error", "用户名或密码错误！");
+			return "user/login";
+		} else {
+			session.setAttribute("loginUser", user);
+			return "redirect:/user/users";
 		}
-		session.setAttribute("loginUser", u);
-		return "redirect:/user/users";
+
 	}
 
-	
 }
