@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ import ch.qos.logback.classic.Logger;
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
-	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	private Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
 	@RequestMapping(value = "/data")
 	@ResponseBody
@@ -109,6 +110,9 @@ public class UserController {
 		}
 //		user.setId(null);
 		//findUserMapper().insertUser(user);
+		user.setEmail("xxxx@zwj.com");
+		user.setStatus(0);
+		user.setCreateDateTime(sdf.format(new Date()));
 		findUserMapper().addUser(user);
 		return "redirect:/user/users";
 	}
@@ -206,15 +210,15 @@ public class UserController {
 			return "/user/login";
 		}
 
-		SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtil.getSqlSessionFactory();
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		// 创建UserMapper代理对象
-		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+//		SqlSessionFactory sqlSessionFactory = SqlSessionFactoryUtil.getSqlSessionFactory();
+//		SqlSession sqlSession = sqlSessionFactory.openSession();
+//		// 创建UserMapper代理对象
+//		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("username", username.trim());
 		hmap.put("password", password.trim());
 		// hmap.put("password",MD5Util.string2MD5(password.trim()));
-		User user = userMapper.login(hmap);
+		User user = findUserMapper().login(hmap);
 
 		if (user == null) {
 			model.addAttribute("error", "用户名或密码错误！");

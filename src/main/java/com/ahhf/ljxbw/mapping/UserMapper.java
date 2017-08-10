@@ -35,9 +35,29 @@ public interface UserMapper {
     * @throws
      */
     public List<User> findUsers()throws Exception;
+    /**
+     * 
+    * @Title: addUser 
+    * @Description: TODO(添加用户) 
+    * @param @param user
+    * @param @throws Exception    设定文件 
+    * @return void    返回类型 
+    * @author ZWJ
+    * @throws
+     */
     
     public void addUser(User user)throws Exception;
-    
+    /**
+     * 
+    * @Title: login 
+    * @Description: TODO(登录) 
+    * @param @param param
+    * @param @return
+    * @param @throws Exception    设定文件 
+    * @return User    返回类型 
+    * @author ZWJ
+    * @throws
+     */
     public User login(Map<String, Object> param)throws Exception;
     
 }

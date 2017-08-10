@@ -25,9 +25,11 @@
 		values(#{username},#{password},#{email})
 	</insert>
 	
-	<insert id="addUser" parameterType="com.ahhf.ljxbw.entity.User" useGeneratedKeys="true"
-		keyProperty="id">
-		insert into user(username,password)values(#{username},#{password})
+	<insert id="addUser" parameterType="com.ahhf.ljxbw.entity.User" >
+	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">  
+        select LAST_INSERT_ID()   
+    </selectKey>  
+		insert into user(username,password,sequence,createDateTime,status,email)values(#{username},#{password},#{sequence},#{createDateTime},#{status},#{email})
 	</insert>
 
 	<update id="updateUser" parameterType="com.ahhf.ljxbw.entity.User">
